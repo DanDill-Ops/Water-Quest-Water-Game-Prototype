@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Collect yellow jerry cans, avoid contaminated water, and race the clock in a mission-inspired clean water game."
+    />
+    <title>Water Relay | A Clean Water Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar">
+        <a class="wordmark" href="#game" aria-label="Water Relay home">
+          <span class="wordmark-mark" aria-hidden="true">W</span>
+          <span>water <strong>relay</strong></span>
+        </a>
+        <p class="inspired">Inspired by charity: water’s mission</p>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow">A 45-second clean water challenge</p>
+          <h1 id="page-title">
+            Every drop<br />
+            <span>moves us forward.</span>
+          </h1>
+          <p class="lede">
+            Race the clock. Tap yellow jerry cans. Avoid contaminated water.
+            Reach <strong>100 points</strong> to complete the relay.
+          </p>
+        </div>
+
+        <aside class="mission-card" aria-label="How to play">
+          <p class="card-kicker">Your mission</p>
+          <ol>
+            <li>
+              <span class="mini-can" aria-hidden="true"></span>
+              Yellow can <strong>+10</strong>
+            </li>
+            <li>
+              <span
+                class="mini-can mini-can-bonus"
+                aria-hidden="true"
+              ></span>
+              Golden can <strong>+20</strong>
+            </li>
+            <li>
+              <span class="mini-drop" aria-hidden="true"></span>
+              Dirty water <strong>−10</strong>
+            </li>
+          </ol>
+        </aside>
+      </section>
+
+      <section class="game-panel" id="game" aria-labelledby="game-title">
+        <div class="game-heading">
+          <div>
+            <p class="section-label">Community well run</p>
+            <h2 id="game-title">Collect the clean water</h2>
+          </div>
+          <button class="reset-button" id="reset-button" type="button">
+            Start round
+          </button>
+        </div>
+
+        <div class="scoreboard" aria-label="Game status">
+          <div class="score-item">
+            <span>Score</span>
+            <strong id="score">0</strong>
+            <small>/ 100</small>
+          </div>
+          <div class="score-item timer" id="timer-card">
+            <span>Time</span>
+            <strong id="time">45</strong>
+            <small>sec</small>
+          </div>
+          <div class="score-item best">
+            <span>Personal best</span>
+            <strong id="best">0</strong>
+            <small>pts</small>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-copy">
+            <span>Relay progress</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div
+            class="progress-track"
+            id="progress-track"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+            aria-label="Progress toward 100 points"
+          >
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="playfield-wrap">
+          <div
+            class="playfield"
+            id="playfield"
+            aria-label="Water collection grid"
+          ></div>
+          <div class="game-overlay" id="game-overlay">
+            <div class="overlay-card" id="overlay-card">
+              <span class="overlay-icon ready-icon" aria-hidden="true">45</span>
+              <h3>Ready to make a splash?</h3>
+              <p>Collect 100 points before the timer runs out.</p>
+              <button type="button" id="overlay-button">Start round</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="feedback-row">
+          <p class="feedback" aria-live="polite">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span id="feedback">Press Start round when you’re ready.</span>
+          </p>
+          <div class="milestones" aria-label="Score milestones">
+            <span data-milestone="25">25</span>
+            <span data-milestone="50">50</span>
+            <span data-milestone="75">75</span>
+            <span data-milestone="100">100</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="impact-strip" aria-label="Clean water message">
+        <p>Water changes everything.</p>
+        <div class="impact-line"></div>
+        <p>Learn. Play. <strong>Share the mission.</strong></p>
+      </section>
+
+      <footer>
+        <p>
+          An educational prototype inspired by the goal of clean and safe water
+          for everyone.
+        </p>
+        <a href="#page-title">Back to top ↑</a>
+      </footer>
+    </main>
+    <div class="confetti" id="confetti" aria-hidden="true"></div>
+  </body>
+</html>
