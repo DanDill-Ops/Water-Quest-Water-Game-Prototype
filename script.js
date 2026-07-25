@@ -37,6 +37,7 @@ let targetId = 0;
 let countdownTimer = null;
 let spawnTimer = null;
 let highScore = Number(localStorage.getItem("water-relay-high-score")) || 0;
+let audioContext = null;
 
 bestElement.textContent = highScore;
 
@@ -56,6 +57,65 @@ function getTargetKind() {
   if (roll < 0.14) return "hazard";
   if (roll < 0.25) return "bonus";
   return "can";
+}
+
+function getAudioContext() {
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) return null;
+  if (!audioContext) audioContext = new AudioContextClass();
+  if (audioContext.state === "suspended") audioContext.resume();
+  return audioContext;
+}
+
+function playTone(context, frequency, start, duration, type, volume) {
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, start);
+  gain.gain.setValueAtTime(volume, start);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(start);
+  oscillator.stop(start + duration);
+}
+
+function playFeedbackSound(kind) {
+  const context = getAudioContext();
+  if (!context) return;
+
+  const now = context.currentTime;
+
+  if (kind === "hazard") {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+
+    oscillator.type = "sawtooth";
+    oscillator.frequency.setValueAtTime(135, now);
+    oscillator.frequency.exponentialRampToValueAtTime(70, now + 0.28);
+    gain.gain.setValueAtTime(0.075, now);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+    oscillator.start(now);
+    oscillator.stop(now + 0.28);
+    return;
+  }
+
+  if (kind === "bonus") {
+    playTone(context, 523.25, now, 0.16, "sine", 0.075);
+    playTone(context, 783.99, now + 0.1, 0.18, "sine", 0.07);
+    playTone(context, 1046.5, now + 0.2, 0.22, "sine", 0.065);
+    return;
+  }
+
+  playTone(context, 440, now, 0.15, "sine", 0.07);
+  playTone(context, 659.25, now + 0.1, 0.2, "sine", 0.065);
 }
 
 function targetMarkup(kind) {
@@ -184,6 +244,7 @@ function collectTarget(index) {
   }
 
   const kind = activeTarget.kind;
+  playFeedbackSound(kind);
   score = Math.max(0, score + pointsByKind[kind]);
   feedbackElement.textContent = feedbackByKind[kind];
   activeTarget = null;
